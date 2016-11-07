@@ -8,7 +8,7 @@ main:
 	MOV R9,R0
 	BL _scanf
 	MOV R10,R0
-	BL _getop
+	BL _scanop
 	MOV R1,R0
 	BL _printf
 	B main
@@ -34,7 +34,7 @@ _getchar:
 	AND R0, #0xFF
 	MOV PC,LR
 
-_getop:
+_scanop:
 	PUSH {LR}
 	CMP R9, #'+'
 	BEQ _sum
@@ -55,9 +55,9 @@ _printf:
 	POP {LR}
 	MOV PC,LR
 
-_product:
+_diff:
 	MOV R5,LR
-	MUL R0,R8,R10
+	SUB R0,R8,R10
 	MOV PC,R5
 
 _sum:
@@ -65,10 +65,9 @@ _sum:
 	ADD R0,R8,R10
 	MOV PC,LR
 
-
-_diff:
+_product:
 	MOV R5,LR
-	SUB R0,R8,R10
+	MUL R0,R8,R10
 	MOV PC,R5
     
 _max:
