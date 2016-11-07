@@ -1,3 +1,7 @@
+@ Jalyn Gilliam 1001170694
+@ cse2312
+@ Dr.McMurrough
+
 .global main
 .func main
 
