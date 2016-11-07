@@ -56,9 +56,9 @@ _printf:
 	MOV PC,LR
 
 _product:
-        MOV R5,LR
-        MUL R0,R8,R10
-        MOV PC,R5
+	MOV R5,LR
+	MUL R0,R8,R10
+	MOV PC,R5
 
 _sum:
 	MOV R5,LR
@@ -79,6 +79,6 @@ _max:
 	MOV PC,R5
 
 .data
-format_str:         .asciz       "%d"
-read_char:          .asciz       " "
-printf_str:        .asciz       "%d\n"
+format_str:        .asciz       "%d"
+read_char:         .asciz       " "
+printf_str:		   .asciz       "%d\n"
