@@ -21,10 +21,10 @@ main:
 	POP {R2}			@ retrieve original values
 	POP {R1}			@ retrieve original values
 	MOV R3, R0			@ move R0(num2 from _mod_unsigned) to R1
-	BL _write_result	@ print R1(num2 from _mod_unsigned)
+	BL _print			@ print R1(num2 from _mod_unsigned)
 	BAL main			@ branch back up to main
 
-_prompt:
+_prompt:				@ adapted from project 1
 	MOV R5, R1
 	MOV R7, #4
 	MOV R0, #1
@@ -37,7 +37,7 @@ _prompt:
 	MOV R1, R5
 	MOV PC,LR
 
-_read:
+_read:					@ adapted from project 1
 	MOV R4, LR
 	MOV R5, R1
 	MOV R6, R3
@@ -84,14 +84,14 @@ _mod_unsigned:
 	MOV R0, R1				@ move remainder to R0
 	MOV PC, R7				@ return to _gcd->_gcdloopcheck
 
-_write_result:
+_print:
 	MOV R4, LR
-	LDR R0, =print_result
+	LDR R0, =print
 	BL  printf
 	MOV PC, R4
 
 .data
 num1_prompt:	.ascii	  "Enter Number1 :  "
 num2_prompt:	.ascii	  "Enter Number2 :  "
-format_int:			.asciz	  "%d"
-print_result:		.asciz	  "The GCD of %d and %d is %d\n"
+format_int:		.asciz	  "%d"
+print:			.asciz	  "The GCD of %d and %d is %d\n"
