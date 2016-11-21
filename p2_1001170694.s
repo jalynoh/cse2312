@@ -15,8 +15,12 @@ main:
 	BL _prompt_operand
 	BL _read
 	MOV R2, R0
+	PUSH {R1}			@ store original values for printing
+	PUSH {R2}			@ store original values for printing
 	BL _gcd
-	MOV R1, R0			@ move R0(num2 from _mod_unsigned) to R1
+	POP {R2}			@ retrieve original values
+	POP {R1}			@ retrieve original values
+	MOV R3, R0			@ move R0(num2 from _mod_unsigned) to R1
 	BL _write_result	@ print R1(num2 from _mod_unsigned)
 	BAL main			@ branch back up to main
 
@@ -87,7 +91,7 @@ _write_result:
 	MOV PC, R4
 
 .data
-operand1_prompt:	.ascii	  "Enter Operand_1: "
-operand2_prompt:	.ascii	  "Enter Operand_2: "
+operand1_prompt:	.ascii	  "Enter First Number: "
+operand2_prompt:	.ascii	  "Enter Second Number: "
 format_int:			.asciz	  "%d"
-print_result:		.asciz	  "%d, %d, The GCD is: %d\n\n"
+print_result:		.asciz	  "The GCD of %d and %d is %d\n"
