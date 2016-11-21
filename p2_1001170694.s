@@ -8,11 +8,11 @@
 	.global main
 	.func main
 main:
-	BL _prompt_operand
+	BL _prompt
 	BL _read
 	MOV R1, R0
 	MOV R2, #0
-	BL _prompt_operand
+	BL _prompt
 	BL _read
 	MOV R2, R0
 	PUSH {R1}			@ store original values for printing
@@ -24,15 +24,15 @@ main:
 	BL _write_result	@ print R1(num2 from _mod_unsigned)
 	BAL main			@ branch back up to main
 
-_prompt_operand:
+_prompt:
 	MOV R5, R1
 	MOV R7, #4
 	MOV R0, #1
 	CMP R2, #0
 	MOVNE R2, #17
-	LDRNE R1, =operand1_prompt
+	LDRNE R1, =num1_prompt
 	MOVEQ R2, #17
-	LDREQ R1, =operand2_prompt
+	LDREQ R1, =num2_prompt
 	SWI 0
 	MOV R1, R5
 	MOV PC,LR
@@ -91,7 +91,7 @@ _write_result:
 	MOV PC, R4
 
 .data
-operand1_prompt:	.ascii	  "Enter Operand_1: "
-operand2_prompt:	.ascii	  "Enter Operand_2: "
+num1_prompt:	.ascii	  "Num1: "
+num2_prompt:	.ascii	  "Num2: "
 format_int:			.asciz	  "%d"
 print_result:		.asciz	  "The GCD of %d and %d is %d\n"
