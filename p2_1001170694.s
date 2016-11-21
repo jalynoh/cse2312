@@ -91,7 +91,7 @@ _write_result:
 	MOV PC, R4
 
 .data
-num1_prompt:	.ascii	  "Num1: "
-num2_prompt:	.ascii	  "Num2: "
+num1_prompt:	.asciz	  "Num1: "
+num2_prompt:	.asciz	  "Num2: "
 format_int:			.asciz	  "%d"
 print_result:		.asciz	  "The GCD of %d and %d is %d\n"
