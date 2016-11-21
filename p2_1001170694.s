@@ -91,7 +91,7 @@ _write_result:
 	MOV PC, R4
 
 .data
-operand1_prompt:	.ascii	  "Enter First Number: "
-operand2_prompt:	.ascii	  "Enter Second Number: "
+operand1_prompt:	.ascii	  "Enter Operand_1: "
+operand2_prompt:	.ascii	  "Enter Operand_2: "
 format_int:			.asciz	  "%d"
 print_result:		.asciz	  "The GCD of %d and %d is %d\n"
