@@ -84,10 +84,10 @@ _minmaxloop:		@ HANDLES FINDING THE MIN AND MAX LOOP
 
 _minMaxDisplay:
 	MOV R1, R11             @ stores min value into R1
-	LDR R0 =printMin		@ print min
+	LDR R0, =printMin		@ print min
 	BL _printf				@ print min
 	MOV R1, R8              @ stores max value into R1
-	LDR R0 =printMax		@ print max
+	LDR R0, =printMax		@ print max
 	BL _printf				@ print max
 	B _exit
 
