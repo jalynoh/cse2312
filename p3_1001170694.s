@@ -4,8 +4,8 @@
 @ Project 3
 @ Dr. McMurrough
 @
-@ 1) populate an array with 10 random values
-@ 2) find min and max value
+@ 1) populate an array with 10 random values	[COMPLETED]
+@ 2) find min and max value						[COMPLETED]
 @ 3) search the array
 @
 
@@ -62,10 +62,8 @@ readdone:			@ HANDLES THE LOGIC FOR FINDING MIN AND MAX
 	LSL R2, R0, #2			@ multiply index by 4 to get the array offset
 	ADD R2, R2, R1			@ starting array address + offset
 	LDR R1, [R2]            @ gets the address in R2 and loads into R1
-	MOV R11, R1             @ stores min value
-	MOV R10, R2             @ stores min address
-	MOV R8, R1              @ stores max value
-	MOV R7, R2              @ stores max address
+	MOV R7, R1				@ initializes min value with first element in array
+	MOV R8, R1              @ initializes max value with first element in array
 	B _minmaxloop			@ branch to min max loops
 
 _minmaxloop:		@ HANDLES FINDING THE MIN AND MAX LOOP
@@ -75,15 +73,15 @@ _minmaxloop:		@ HANDLES FINDING THE MIN AND MAX LOOP
 	LSL R4, R0, #2			@ multiply index by 4 to get the array offset
 	ADD R4, R3, R4			@ starting array address + offset
 	LDR R3, [R4]			@ gets the address in R4 and loads into R3
-	CMP R11, R3				@ compares current min with current array position
-	MOVGT R11, R3			@ stores array value, if it is less than current min value
+	CMP R7, R3				@ compares current min with current array position
+	MOVGT R7, R3			@ stores array value, if it is less than current min value
 	CMP R8, R3				@ compares current max with current array position
 	MOVLT R8, R3			@ stores array value, if it is greater than current max value
 	ADD R0, R0, #1			@ iterator for the loop
 	B _minmaxloop			@ back to top
 
 _minmaxprint:		@ HANDLES PRINTING MIN AND MAX NUMBERS
-	MOV R1, R11             @ stores min value into R1
+	MOV R1, R7             @ stores min value into R1
 	LDR R0, =printMin		@ print min
 	BL printf				@ call printf
 	MOV R1, R8              @ stores max value into R1
