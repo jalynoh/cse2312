@@ -70,7 +70,7 @@ readdone:			@ HANDLES THE LOGIC FOR FINDING MIN AND MAX
 
 _minmaxloop:		@ HANDLES FINDING THE MIN AND MAX LOOP
 	CMP R0, #10				@ check if end of loop
-	BEQ _minMaxDisplay		@ end loop, if above line is true
+	BEQ _minmaxprint		@ end loop, if above line is true
 	LDR R3, =a				@ loads starting address of a into R3
 	LSL R4, R0, #2			@ multiply index by 4 to get the array offset
 	ADD R4, R3, R4			@ starting array address + offset
@@ -82,7 +82,7 @@ _minmaxloop:		@ HANDLES FINDING THE MIN AND MAX LOOP
 	ADD R0, R0, #1			@ iterator for the loop
 	B _minmaxloop			@ back to top
 
-_minMaxDisplay:
+_minmaxprint:		@ HANDLES PRINTING MIN AND MAX NUMBERS
 	MOV R1, R11             @ stores min value into R1
 	LDR R0, =printMin		@ print min
 	BL printf				@ call printf
@@ -91,7 +91,7 @@ _minMaxDisplay:
 	BL printf				@ call printf
 	B _exit
 
-_exit:
+_exit:				@ HANDLES EXITING STEPS
 	MOV R7, #4				@ write syscall, 4
 	MOV R0, #1				@ output stream to monitor, 1
 	MOV R2, #21				@ print string length
@@ -100,13 +100,13 @@ _exit:
 	MOV R7, #1              @ terminate syscall, 1
 	SWI 0                   @ execute syscall
 
-_printf:
+_printf:			@ PRINT FUNCTION FOR THE ARRAY
 	PUSH {LR}               @ store the return address
 	LDR R0, =printf_str     @ R0 contains formatted string address
 	BL printf               @ call printf
 	POP {PC}                @ restore the stack pointer and return
 
-_seedrand:
+_seedrand:			@ SETS SEED FOR RAND FUNCTION
 	PUSH {LR}               @ backup return address
 	MOV R0, #0              @ pass 0 as argument to time call
 	BL time                 @ get system time
@@ -114,12 +114,31 @@ _seedrand:
 	BL srand                @ seed the random number generator
 	POP {PC}                @ return
 
-_getrand:
+_getrand:			@ RUNS RAND FUNCTION AND SLIMS NUMBER DOWN
 	PUSH {LR}               @ backup return address
 	BL rand                 @ get a random number
+	MOV R1, R0				@ slimming number in range 0 - 999
+	MOV R2, #1000			@ slimming number in range 0 - 999
+	BL _mod_unsigned		@ slimming down count in range 0 - 999
 	POP {PC}                @ return
 
-.data
+_mod_unsigned:		@ HELPER FUNCTION TO SLIM DOWN NUMBER IN RANGE 0 - 999
+	cmp R2, R1				@ check to see if R1 >= R2
+	MOVHS R0, R1			@ swap R1 and R2 if R2 > R1
+	MOVHS R1, R2			@ swap R1 and R2 if R2 > R1
+	MOVHS R2, R0			@ swap R1 and R2 if R2 > R1
+	MOV R0, #0				@ initialize return value
+	B _modloopcheck			@ check to see if
+	_modloop:
+		ADD R0, R0, #1		@ increment R0
+		SUB R1, R1, R2		@ subtract R2 from R1
+	_modloopcheck:
+		CMP R1, R2			@ check for loop termination
+		BHS _modloop		@ continue loop if R1 >= R2
+		MOV R0, R1			@ move remainder to R0
+		MOV PC, LR			@ return
+
+	.data
 
 .balign 4
 a:              .skip       40
