@@ -1,10 +1,4 @@
-/*William Caballero
- *project 3 Random Numbers, Min, Max, and Search Values*/
-/*generates 10 random numbers from [0-999] - Working
- * Finds the min value - Working
- * Finds the max value - Working
- * Finds the search value - Not Working
- *C-Code to find min and max
+/*
  *int min=max=a[0];
  *for(i=1; i < 9; i++){
  *    if(min > a[i]){
