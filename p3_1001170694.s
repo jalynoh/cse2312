@@ -20,42 +20,76 @@
 main:
 	BL _seedrand            @ seed random number generator with current time
 	MOV R0, #0              @ initialze index variable
-	writeloop:
-		CMP R0, #10            @ check to see if we are done iterating
-		BEQ writedone           @ exit loop if done
-		LDR R1, =a              @ get address of a
-		LSL R2, R0, #2          @ multiply index*4 to get array offset
-		ADD R2, R1, R2          @ R2 now has the element address
-		PUSH {R0}               @ backup iterator before procedure call
-		PUSH {R2}               @ backup element address before procedure call
-		BL _getrand             @ get a random number
-		POP {R2}                @ restore element address
-		STR R0, [R2]            @ write the address of a[i] to a[i]
-		POP {R0}                @ restore iterator
-		ADD R0, R0, #1          @ increment index
-		B   writeloop           @ branch to next loop iteration
-	writedone:
-		MOV R0, #0              @ initialze index variable
-		readloop:
-			CMP R0, #10            @ check to see if we are done iterating
-			BEQ readdone            @ exit loop if done
-			LDR R1, =a              @ get address of a
-			LSL R2, R0, #2          @ multiply index*4 to get array offset
-			ADD R2, R1, R2          @ R2 now has the element address
-			LDR R1, [R2]            @ read the array at address
-			PUSH {R0}               @ backup register before printf
-			PUSH {R1}               @ backup register before printf
-			PUSH {R2}               @ backup register before printf
-			MOV R2, R1              @ move array value to R2 for printf
-			MOV R1, R0              @ move array index to R1 for printf
-			BL  _printf             @ branch to print procedure with return
-			POP {R2}                @ restore register
-			POP {R1}                @ restore register
-			POP {R0}                @ restore register
-			ADD R0, R0, #1          @ increment index
-			B   readloop            @ branch to next loop iteration
-	readdone:
-		B _exit						@ exit if done
+writeloop:			@ POPULATES ARRAY WITH 10 ELEMENTS
+	CMP R0, #10            @ check to see if we are done iterating
+	BEQ writedone           @ exit loop if done
+	LDR R1, =a              @ get address of a
+	LSL R2, R0, #2          @ multiply index*4 to get array offset
+	ADD R2, R1, R2          @ R2 now has the element address
+	PUSH {R0}               @ backup iterator before procedure call
+	PUSH {R2}               @ backup element address before procedure call
+	BL _getrand             @ get a random number
+	POP {R2}                @ restore element address
+	STR R0, [R2]            @ write the address of a[i] to a[i]
+	POP {R0}                @ restore iterator
+	ADD R0, R0, #1          @ increment index
+	B   writeloop           @ branch to next loop iteration
+writedone:			@ COMPLETES ARRAY POPULATION
+	MOV R0, #0              @ initialze index variable
+readloop:			@ READS ARRAY TO PRINT
+	CMP R0, #10            @ check to see if we are done iterating
+	BEQ readdone            @ exit loop if done
+	LDR R1, =a              @ get address of a
+	LSL R2, R0, #2          @ multiply index*4 to get array offset
+	ADD R2, R1, R2          @ R2 now has the element address
+	LDR R1, [R2]            @ read the array at address
+	PUSH {R0}               @ backup register before printf
+	PUSH {R1}               @ backup register before printf
+	PUSH {R2}               @ backup register before printsf
+	MOV R2, R1              @ move array value to R2 for printf
+	MOV R1, R0              @ move array index to R1 for printf
+	BL  _printf             @ branch to print procedure with return
+	POP {R2}                @ restore register
+	POP {R1}                @ restore register
+	POP {R0}                @ restore register
+	ADD R0, R0, #1          @ increment index
+	B   readloop            @ branch to next loop iteration
+readdone:			@ HANDLES THE LOGIC FOR FINDING MIN AND MAX
+	MOV R0, #0				@ resets to 0 for min and max
+	MOV R1, #0				@ resets to 0 for min and max
+	MOV R2, #0				@ resets to 0 for min and max
+	LDR R1, =a				@ loads starting array address of a into R1
+	LSL R2, R0, #2			@ multiply index by 4 to get the array offset
+	ADD R2, R2, R1			@ starting array address + offset
+	LDR R1, [R2]            @ gets the address in R2 and loads into R1
+	MOV R11, R1             @ stores min value
+	MOV R10, R2             @ stores min address
+	MOV R8, R1              @ stores max value
+	MOV R7, R2              @ stores max address
+	B _minmaxloop			@ branch to min max loops
+
+_minmaxloop:		@ HANDLES FINDING THE MIN AND MAX LOOP
+	CMP R0, #10				@ check if end of loop
+	BEQ _minMaxDisplay		@ end loop, if above line is true
+	LDR R3, =a				@ loads starting address of a into R3
+	LSL R4, R0, #2			@ multiply index by 4 to get the array offset
+	ADD R4, R3, R4			@ starting array address + offset
+	LDR R3, [R4]			@ gets the address in R4 and loads into R3
+	CMP R11, R3				@ compares current min with current array position
+	MOVGT R11, R3			@ stores array value, if it is less than current min value
+	CMP R8, R3				@ compares current max with current array position
+	MOVLT R8, R3			@ stores array value, if it is greater than current max value
+	ADD R0, R0, #1			@ iterator for the loop
+	B _minmaxloop			@ back to top
+
+_minMaxDisplay:
+	MOV R1, R11             @ stores min value into R1
+	LDR R0 =printMin		@ print min
+	BL _printf				@ print min
+	MOV R1, R8              @ stores max value into R1
+	LDR R0 =printMax		@ print max
+	BL _printf				@ print max
+	B _exit
 
 _exit:
 	MOV R7, #4				@ write syscall, 4
@@ -90,5 +124,7 @@ _getrand:
 .balign 4
 a:              .skip       40
 printf_str:     .asciz      "a[%d] = %d\n"
+printMin:     .asciz      "MINIMUM VALUE = %d\n"
+printMax:     .asciz      "MAXIMUM VALUE = %d\n"
 debug_str:		.asciz		"R%-2d   0x%08X  %011d \n"
 exit_str:       .ascii      "Terminating program.\n"

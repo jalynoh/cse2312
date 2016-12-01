@@ -100,20 +100,20 @@ _searchLoop:
 	B _searchLoop
 
 _loop1:
-CMP R0, #10             @if the index equals 9 we break out of the loop
-BEQ _minMaxDisplay      @exit program for now, will update this to jump to search function
-LDR R3, =a              @get address of a
-LSL R4, R0, #2          @ multiply index*4 to get array offset
-ADD R4, R3, R4          @ R4 now has the element address
-LDR R3, [R4]            @ read the array at address and dereference it to get value a[i]
-CMP R11, R3
-MOVGT R12, R0           @copy index to R9, use later in print statement (MIN)
-MOVGT R11, R3           @if R1 (min) is greater than R4 a[i] mov R4 to R1 (MIN)
-CMP R8, R3
-MOVLT R9, R0            @INDEX OF MAX
-MOVLT R8, R3            @VALUE OF MAX
-ADD R0, R0, #1          @increment index
-B _loop1                @go back to loop1
+	CMP R0, #10             @if the index equals 9 we break out of the loop
+	BEQ _minMaxDisplay      @exit program for now, will update this to jump to search function
+	LDR R3, =a              @get address of a
+	LSL R4, R0, #2          @ multiply index*4 to get array offset
+	ADD R4, R3, R4          @ R4 now has the element address
+	LDR R3, [R4]            @ read the array at address and dereference it to get value a[i]
+	CMP R11, R3
+	MOVGT R12, R0           @copy index to R9, use later in print statement (MIN)
+	MOVGT R11, R3           @if R1 (min) is greater than R4 a[i] mov R4 to R1 (MIN)
+	CMP R8, R3
+	MOVLT R9, R0            @INDEX OF MAX
+	MOVLT R8, R3            @VALUE OF MAX
+	ADD R0, R0, #1          @increment index
+	B _loop1                @go back to loop1
 
 _minMaxDisplay:
 @MOV R2, R11            @ move array value to R2 for printf (value)
@@ -132,10 +132,10 @@ LDR R0, =printf_str     @ R0 contains formatted string address
 BL printf               @ call printf
 POP {PC}                @ restore the stack pointer and return
 _printf_min:
-PUSH {LR}               @ store the return address
-LDR R0, =printf_min     @ R0 contains formatted string address
-BL printf               @ call printf
-POP {PC}                @ restore the stack pointer and return
+	PUSH {LR}               @ store the return address
+	LDR R0, =printf_min     @ R0 contains formatted string address
+	BL printf               @ call printf
+	POP {PC}                @ restore the stack pointer and return
 
 _printf_max:
 PUSH {LR}               @ store the return address
