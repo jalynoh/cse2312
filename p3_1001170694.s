@@ -6,11 +6,12 @@
 @
 @ 1) populate an array with 10 random values	[COMPLETED]
 @ 2) find min and max value						[COMPLETED]
-@ 3) search the array
+@ 3) search the array							[NOT COMPLETE]
 @
 
 /******************************************************************************
- * @file rand_array.s
+ * @ORIGINAL RANDOM ARRY POPULATION AND PRINT FILE FROM:
+ * @rand_array.s
  * @author Christopher D. McMurrough
  ******************************************************************************/
 
@@ -81,10 +82,10 @@ _minmaxloop:		@ HANDLES FINDING THE MIN AND MAX LOOP
 	B _minmaxloop			@ back to top
 
 _minmaxprint:		@ HANDLES PRINTING MIN AND MAX NUMBERS
-	MOV R1, R7             @ stores min value into R1
+	MOV R1, R7				@ stores min value into R1
 	LDR R0, =printMin		@ print min
 	BL printf				@ call printf
-	MOV R1, R8              @ stores max value into R1
+	MOV R1, R8				@ stores max value into R1
 	LDR R0, =printMax		@ print max
 	BL printf				@ call printf
 	B _exit
@@ -141,7 +142,6 @@ _mod_unsigned:		@ HELPER FUNCTION TO SLIM DOWN NUMBER IN RANGE 0 - 999
 .balign 4
 a:              .skip       40
 printf_str:     .asciz      "a[%d] = %d\n"
-printMin:     .asciz      "MINIMUM VALUE = %d\n"
-printMax:     .asciz      "MAXIMUM VALUE = %d\n"
-debug_str:		.asciz		"R%-2d   0x%08X  %011d \n"
+printMin:		.asciz      "MINIMUM VALUE = %d\n"
+printMax:		.asciz      "MAXIMUM VALUE = %d\n"
 exit_str:       .ascii      "Terminating program.\n"
