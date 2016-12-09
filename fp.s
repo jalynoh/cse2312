@@ -69,13 +69,14 @@ _printf:
 _abs:
 	@ 0 - S1 = S1
 _sqrt:
-	@ ?
+	VSQRT.F32 S0, S1
+	MOV PC, LR
 _pow:
 	@ ask for another input
 	@ multiplication loop
 _inv:
-	VDIV.F32 S0, S1, #1
-	MOV PC, LR 				@ return to calling function
+	@VDIV.F32 S0, S1, #1		@ divide by 1
+	@MOV PC, LR 				@ return to calling function
 
 
 .data
