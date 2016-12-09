@@ -69,7 +69,7 @@ _printf:
 _abs:
 
 _sqrt:
-	VSQRT.F32 S0, S1
+	VADD.F32 S0, S1, S1
  	MOV PC, LR
 
 _pow:
