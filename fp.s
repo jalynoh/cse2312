@@ -67,7 +67,7 @@ _printf:
 	POP {PC}				@ return to calling function
 
 _abs:
-	
+
 _sqrt:
 	VSQRT.F32 S0, S1
  	MOV PC, LR
@@ -77,7 +77,8 @@ _pow:
 _inv:
 
 
+
 .data
 format_str:		.asciz		"%f"
-read_char:		.asciz		 " "
-printf_str:		.asciz		"%f\n"
+read_char:		.asciz		 ""
+printf_str:		.asciz		"Testing: %f\n"
