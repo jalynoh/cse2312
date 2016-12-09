@@ -62,21 +62,19 @@ _scanop:
 
 _printf:
 	PUSH {LR}				@ store original function return value
-	LDR R0, = printf_str	@ load string formating into R0
+	LDR R0, =printf_str		@ load string formating into R0
 	BL printf 				@ call printf from stdlib
 	POP {PC}				@ return to calling function
 
 _abs:
-	@ 0 - S1 = S1
+	
 _sqrt:
 	VSQRT.F32 S0, S1
-	MOV PC, LR
+ 	MOV PC, LR
+
 _pow:
-	@ ask for another input
-	@ multiplication loop
+
 _inv:
-	@VDIV.F32 S0, S1, #1		@ divide by 1
-	@MOV PC, LR 				@ return to calling function
 
 
 .data
