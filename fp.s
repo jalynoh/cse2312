@@ -67,6 +67,8 @@ _printf:
 	POP {PC}				@ return to calling function
 
 _abs:
+	VABS.F32 S0, S0
+	MOV PC, LR
 
 _sqrt:
 	VADD.F32 S0, S0, S0
