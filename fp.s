@@ -95,13 +95,12 @@ _pow:
 	VMOV S2, S1
 	BL _vscanf
 	B _powprint
-	@_powloop:
-	@	CMP R0, #0
-	@	BEQ _powprint
-	@	SUB R0, R0, #1
-	@	VMUL.F32 S1, S1, S2
-	@	B _powloop
-
+	_powloop:
+		CMP R0, #0
+		BNE _powprint
+		SUB R0, R0, #1
+		VMUL.F32 S1, S1, S2
+		B _powloop
 	_powprint:
 		VCVT.F64.F32 D1, S1		@ convert single to double
 		VMOV R1, R2, D1			@ split double VFP register into two ARM registers
