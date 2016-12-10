@@ -124,6 +124,6 @@ _inv:
 
 
 .data
-format_str:		.asciz		"%d"
+format_str:		.asciz		"%f"
 read_char:		.asciz		 ""
 printf_str:		.asciz		"%d\n"
