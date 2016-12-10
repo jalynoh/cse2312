@@ -81,7 +81,7 @@ _sqrt:
  	POP {PC}
 
 _pow:
-	PUSH {PC}
+	PUSH {LR}
 	BL _vscanf
 	VMOV S1, S0
 	MOV R3, #0
@@ -95,7 +95,7 @@ _pow:
 	VCVT.F64.F32 D1, S0		@ convert single to double
 	VMOV R1, R2, D1			@ split double VFP register into two ARM registers
 	BL _printf				@ print result
-	POP {LR}
+	POP {PC}
 
 _inv:
 	PUSH {LR}
