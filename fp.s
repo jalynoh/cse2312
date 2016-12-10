@@ -20,7 +20,7 @@
 main:
 	BL _vscanf				@ jump to vault scanf
 	VMOV S0, R0				@ move return value to FPU registers
-	VCVT.F64.U32 D1, S0		@ 
+	VCVT.F64.F32 D1, S0		@ 
 
 @	BL _getchar				@ operation input
 @	MOV R9, R0 				@ move operation character for later use
