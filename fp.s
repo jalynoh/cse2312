@@ -82,8 +82,8 @@ _sqrt:
 
 _pow:
 	PUSH {LR}
-	VMOV S1, S0
 	BL _vscanf
+	VMOV S1, S0
 	_powloop:
 		CMP R0, #0
 		BEQ _powloop
