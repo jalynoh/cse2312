@@ -86,11 +86,11 @@ _pow:
 	BL _vscanf
 	B _powloopcheck
 	_powloop:
-		SUB R0, R0, #65
+		SUB R0, R0, #1
 		VMUL.F32 S0, S0, S1
 	_powloopcheck:
 		CMP R0, #0
-		BNE _powloop
+		BEQ _powloop
 
 	VCVT.F64.F32 D1, S0		@ convert single to double
 	VMOV R1, R2, D1			@ split double VFP register into two ARM registers
