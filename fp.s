@@ -94,7 +94,6 @@ _pow:
 	PUSH {LR}
 	VMOV S2, S1
 	BL _vscanf
-	B _powprint
 	_powloop:
 		CMP R0, #0
 		BNE _powprint
