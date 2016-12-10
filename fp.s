@@ -99,7 +99,7 @@ _pow:
 	VMOV S2, S1				@ store original S1
 	BL _scanf 				@ regular scan to get raise
 	_powloop:
-		CMP R0, #0			@ if the raise == 0
+		CMP R0, #1			@ if the raise == 0
 		BEQ _powprint		@ if the raise == 0, go to _powprint
 		SUB R0, R0, #1		@ increment raise
 		VMUL.F32 S1, S1, S2	@ multiply the changing S1 by the static S2
