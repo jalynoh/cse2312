@@ -86,7 +86,7 @@ _pow:
 	BL _vscanf
 	B _powloopcheck
 	_powloop:
-		SUB R0, R0, #6548
+		SUB R0, R0, #65
 		VMUL.F32 S0, S0, S1
 	_powloopcheck:
 		CMP R0, #0
