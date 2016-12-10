@@ -93,8 +93,8 @@ _sqrt:
 _pow:
 	PUSH {LR}
 	VMOV S2, S1
-	BL _scanf
-	@MOV R0, #4
+	@BL _scanf
+	MOV R0, #4
 	B _powloopcheck
 	_powloop:
 		SUB R0, R0, #1
