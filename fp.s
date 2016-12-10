@@ -86,10 +86,10 @@ _pow:
 
 _inv:
 	PUSH {LR}
-	
+
 	MOV R5, #1
 	VMOV S5, R5
-	VCVT.F32.U32 S5, S5
+@	VCVT.F32.F32 S5, S5
 
 	VDIV.F32 S0, S0, S5
 	
