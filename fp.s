@@ -88,7 +88,7 @@ _pow:
 	B _powloopcheck
 	_powloop:
 		ADD R3, R3, #1
-		VMUL S0, S0, S1
+		VMUL.F32 S0, S0, S1
 	_powloopcheck:
 		CMP R3, R0
 		BHS _powloop
