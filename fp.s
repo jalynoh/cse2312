@@ -82,13 +82,11 @@ _sqrt:
 
 _pow:
 	PUSH {LR}
-	@VMOV S1, S0
+	VMOV S1, S0
 	BL _vscanf
-	B _powloopcheck
 	_powloop:
 		SUB R0, R0, #1
 		VMUL.F32 S0, S0, S1
-	_powloopcheck:
 		CMP R0, #0
 		BEQ _powloop
 
