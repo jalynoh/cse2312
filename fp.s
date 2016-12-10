@@ -4,6 +4,11 @@
 @ Dr. McMurrough
 @
 @
+@ note:
+@	all processes work, however
+@ 	second iteration  displays 0.00000
+@	
+@
 @ 1) scan for input values
 @ 2) ABS(-5.7) = |-5.7| = 5.7
 @		input 'a'
