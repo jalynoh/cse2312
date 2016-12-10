@@ -23,9 +23,6 @@ main:
 	BL _getchar				@ operation input
 	MOV R9, R0 				@ move operation character for later use
 	BL _scanop				@ decifier operation input
-@	VCVT.F64.F32 D1, S0		@ convert single to double
-@	VMOV R1, R2, D1			@ split double VFP register into two ARM registers
-@	BL _printf				@ print result
 	B main					@ continuous loop
 
 _vscanf:
@@ -69,6 +66,7 @@ _printf:
 _abs:
 	PUSH {LR}
 	VABS.F32 S0, S0
+
 	VCVT.F64.F32 D1, S0		@ convert single to double
 	VMOV R1, R2, D1			@ split double VFP register into two ARM registers
 	BL _printf				@ print result
@@ -76,23 +74,34 @@ _abs:
 
 _sqrt:
 	PUSH {LR}
-	VSQRT.F32 S0, S0
+	VSQRT.F32 S0, S0		@ sqrt(S0)
 	VCVT.F64.F32 D1, S0		@ convert single to double
 	VMOV R1, R2, D1			@ split double VFP register into two ARM registers
 	BL _printf				@ print result
  	POP {PC}
 
 _pow:
+	PUSH {PC}
+	_vscanf
+	VMOV S1, S0
+	MOV R3, #0
+	B _powloopcheck
+	_powloop:
+		ADD R3, R3, #1
+		VMUL S0, S0, S1
+	_powloopcheck:
+		CMP R3, R0
+		BHS _powloop
+	POP {LR}
 
 _inv:
 	PUSH {LR}
+	MOV R5, #1				@ set constant 1
+	VMOV S1, R5				@ set constant 1
+	VCVT.F32.U32 S1, S1		@ set constant 1
 
-	MOV R5, #1
-	VMOV S5, R5
-	VCVT.F32.U32 S5, S5
+	VDIV.F32 S0, S1, S0		@ divide 1/S0
 
-	VDIV.F32 S0, S5, S0
-	
 	VCVT.F64.F32 D1, S0		@ convert single to double
 	VMOV R1, R2, D1			@ split double VFP register into two ARM registers
 	BL _printf				@ print result
