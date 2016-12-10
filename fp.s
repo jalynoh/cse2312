@@ -1,8 +1,8 @@
-@ Jalyn Gilliam
-@ 1001170694
-@
+@ Jalyn Gilliam 1001170694
+@ cse2312
 @ Final Exam
 @ Dr. McMurrough
+@
 @
 @ 1) scan for input values
 @ 2) ABS(-5.7) = |-5.7| = 5.7
@@ -23,12 +23,12 @@ main:
 	BL _getchar				@ operation input
 	MOV R9, R0 				@ move operation character for later use
 	BL _scanop				@ decifier operation input
-	BAL main					@ continuous loop
+	B main					@ continuous loop
 
 _vscanf:
 	PUSH {LR}				@ store original function return value
 	SUB SP,SP,#4			@ make room on stack
-	LDR R0, =format_str		@ R0 contains address of format string
+	LDR R0, =f_format_str		@ R0 contains address of format string
 	MOV R1, SP 				@ move SP to R1 to store entry on stack
 	BL scanf				@ call scanf from stdlib
 	LDR R0, [SP]			@ load value at SP into R0
@@ -36,14 +36,14 @@ _vscanf:
 	POP {PC}				@ return to calling function
 
 _scanf:
-    PUSH {LR}                @ store LR since scanf call overwrites
+    PUSH {LR}               @ store LR since scanf call overwrites
     SUB SP, SP, #4          @ make room on stack
-    LDR R0, =int_format_str @ R0 contains address of format string
+    LDR R0, =d_format_str	@ R0 contains address of format string
     MOV R1, SP              @ move SP to R1 to store entry on stack
     BL scanf                @ call scanf
     LDR R0, [SP]            @ load value at SP into R0
     ADD SP, SP, #4          @ restore the stack pointer
-    POP {PC}                 @ return
+    POP {PC}                @ return
 
 _getchar:
 	MOV R7, #3
@@ -91,18 +91,18 @@ _sqrt:
 
 _pow:
 	PUSH {LR}
-	VMOV S2, S1
-	BL _scanf
+	VMOV S2, S1				@ store original S1
+	BL _scanf 				@ regular scan to get raise
 	_powloop:
-		CMP R0, #0
-		BEQ _powprint
-		SUB R0, R0, #1
-		VMUL.F32 S1, S1, S2
-		B _powloop
+		CMP R0, #0			@ if the raise == 0
+		BEQ _powprint		@ if the raise == 0, go to _powprint
+		SUB R0, R0, #1		@ increment raise
+		VMUL.F32 S1, S1, S2	@ multiply the changing S1 by the static S2
+		B _powloop			@ go back to _powloop
 	_powprint:
-		VCVT.F64.F32 D1, S1		@ convert single to double
-		VMOV R1, R2, D1			@ split double VFP register into two ARM registers
-		BL _printf				@ print result
+		VCVT.F64.F32 D1, S1	@ convert single to double
+		VMOV R1, R2, D1		@ split double VFP register into two ARM registers
+		BL _printf			@ print result
 	POP {PC}
 
 _inv:
@@ -119,7 +119,7 @@ _inv:
 
 
 .data
-format_str:		.asciz		"%f"
-int_format_str:	.asciz		"%d"
-read_char:		.asciz		 ""
-printf_str:		.asciz		"%f\n"
+f_format_str:		.asciz		"%f"
+d_format_str:		.asciz		"%d"
+read_char:			.asciz		 ""
+printf_str:			.asciz		"%f\n"
