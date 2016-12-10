@@ -23,7 +23,7 @@ main:
 	BL _getchar				@ operation input
 	MOV R9, R0 				@ move operation character for later use
 	BL _scanop				@ decifier operation input
-	B main					@ continuous loop
+	BAL main					@ continuous loop
 
 _vscanf:
 	PUSH {LR}				@ store original function return value
@@ -76,7 +76,6 @@ _printf:
 _abs:
 	PUSH {LR}
 	VABS.F32 S1, S1
-
 	VCVT.F64.F32 D1, S1		@ convert single to double
 	VMOV R1, R2, D1			@ split double VFP register into two ARM registers
 	BL _printf				@ print result
@@ -111,9 +110,7 @@ _inv:
 	MOV R5, #1				@ set constant 1
 	VMOV S2, R5				@ set constant 1
 	VCVT.F32.U32 S2, S2		@ set constant 1
-
 	VDIV.F32 S1, S2, S1		@ divide 1/S1
-
 	VCVT.F64.F32 D1, S1		@ convert single to double
 	VMOV R1, R2, D1			@ split double VFP register into two ARM registers
 	BL _printf				@ print result
