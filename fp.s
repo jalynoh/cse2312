@@ -19,7 +19,7 @@
 
 main:
 	BL _vscanf				@ jump to vault scanf
-	VMOV S0, R0				@ move return value to FPU registers
+	VMOV S1, R0				@ move return value to FPU registers
 	BL _getchar				@ operation input
 	MOV R9, R0 				@ move operation character for later use
 	BL _scanop				@ decifier operation input
@@ -75,27 +75,27 @@ _printf:
 
 _abs:
 	PUSH {LR}
-	VABS.F32 S0, S0
+	VABS.F32 S1, S1
 
-	VCVT.F64.F32 D1, S0		@ convert single to double
+	VCVT.F64.F32 D1, S1		@ convert single to double
 	VMOV R1, R2, D1			@ split double VFP register into two ARM registers
 	BL _printf				@ print result
 	POP {PC}
 
 _sqrt:
 	PUSH {LR}
-	VSQRT.F32 S0, S0		@ sqrt(S0)
-	VCVT.F64.F32 D1, S0		@ convert single to double
+	VSQRT.F32 S1, S1		@ sqrt(S0)
+	VCVT.F64.F32 D1, S1		@ convert single to double
 	VMOV R1, R2, D1			@ split double VFP register into two ARM registers
 	BL _printf				@ print result
  	POP {PC}
 
 _pow:
 	PUSH {LR}
-	VMOV S1, S0
+	VMOV S2, S1
 	BL _scanf
 	MOV R1, R0
-	VMUL.F32 S0, S0, S1
+	VMUL.F32 S1, S1, S2
 	@VMOV S1, S0
 	@BL _scanf
 	@B _powloopcheck
@@ -105,7 +105,7 @@ _pow:
 	@_powloopcheck:
 	@	CMP R0, #0
 	@	BNE _powloop
-	VCVT.F64.F32 D1, S0		@ convert single to double
+	VCVT.F64.F32 D1, S1		@ convert single to double
 	VMOV R1, R2, D1			@ split double VFP register into two ARM registers
 	BL _printf				@ print result
 	POP {PC}
@@ -113,12 +113,12 @@ _pow:
 _inv:
 	PUSH {LR}
 	MOV R5, #1				@ set constant 1
-	VMOV S1, R5				@ set constant 1
-	VCVT.F32.U32 S1, S1		@ set constant 1
+	VMOV S2, R5				@ set constant 1
+	VCVT.F32.U32 S2, S2		@ set constant 1
 
-	VDIV.F32 S0, S1, S0		@ divide 1/S0
+	VDIV.F32 S1, S2, S1		@ divide 1/S1
 
-	VCVT.F64.F32 D1, S0		@ convert single to double
+	VCVT.F64.F32 D1, S1		@ convert single to double
 	VMOV R1, R2, D1			@ split double VFP register into two ARM registers
 	BL _printf				@ print result
 	POP {PC}
