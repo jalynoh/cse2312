@@ -84,13 +84,12 @@ _pow:
 	PUSH {LR}
 	BL _vscanf
 	VMOV S1, S0
-	MOV R3, #0
 	B _powloopcheck
 	_powloop:
-		ADD R3, R3, #1
+		SUB R0, R0, #1
 		VMUL.F32 S0, S0, S1
 	_powloopcheck:
-		CMP R0, R3
+		CMP R0, #0
 		BHS _powloop
 	VCVT.F64.F32 D1, S0		@ convert single to double
 	VMOV R1, R2, D1			@ split double VFP register into two ARM registers
