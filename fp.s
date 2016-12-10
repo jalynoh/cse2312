@@ -38,7 +38,7 @@ _vscanf:
 _scanf:
     PUSH {LR}                @ store LR since scanf call overwrites
     SUB SP, SP, #4          @ make room on stack
-    LDR R0, =format_str     @ R0 contains address of format string
+    LDR R0, =int_format_str @ R0 contains address of format string
     MOV R1, SP              @ move SP to R1 to store entry on stack
     BL scanf                @ call scanf
     LDR R0, [SP]            @ load value at SP into R0
@@ -93,7 +93,7 @@ _sqrt:
 _pow:
 	PUSH {LR}
 	VMOV S2, S1
-	BL _vscanf
+	BL _scanf
 	_powloop:
 		CMP R0, #4
 		BNE _powprint
@@ -123,5 +123,6 @@ _inv:
 
 .data
 format_str:		.asciz		"%f"
+int_format_str	.asciz		"%d"
 read_char:		.asciz		 ""
 printf_str:		.asciz		"%f\n"
