@@ -92,6 +92,7 @@ _sqrt:
 
 _pow:
 	PUSH {LR}
+	BL _scanf
 	VMOV S1, S0
 	VMUL.F32 S0, S0, S1
 	@VMOV S1, S0
