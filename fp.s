@@ -84,9 +84,9 @@ _pow:
 	PUSH {LR}
 	VMOV S1, S0
 	BL _vscanf
-	BL _powloopcheck
+	B _powloopcheck
 	_powloop:
-		SUB R0, R0, #1
+		SUB R0, #1, R0
 		VMUL.F32 S0, S0, S1
 	_powloopcheck:
 		CMP R0, #0
