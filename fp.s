@@ -20,10 +20,11 @@
 main:
 	BL _vscanf				@ jump to vault scanf
 	VMOV S1, R0				@ move return value to FPU registers
-	BL _getchar				@ operation input
-	MOV R9, R0 				@ move operation character for later use
-	BL _scanop				@ decifier operation input
-	VCVT.F64.U32 D4, S0		@ convert the result to double precision
+@	BL _getchar				@ operation input
+@	MOV R9, R0 				@ move operation character for later use
+@	BL _scanop				@ decifier operation input
+@	VCVT.F64.U32 D4, S0		@ convert the result to double precision
+	VCVT.F64.U32 D4, S1		@ convert the result to double precision
 	VMOV R1, R2, D4			@ split double VFP register into two ARM registers
 	BL _printf				@ print result
 	B main					@ continuous loop
