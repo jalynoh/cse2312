@@ -84,17 +84,16 @@ _pow:
 	PUSH {LR}
 	VMOV S1, S0
 	BL _vscanf
-	@B _powloopcheck
+	B _powloopcheck
 	_powloop:
 		SUB R0, R0, #1
 		VMUL.F32 S0, S0, S1
-	@_powloopcheck:
+	_powloopcheck:
 		CMP R0, #0
-		BNE _powloop
-
-	VCVT.F64.F32 D1, S0		@ convert single to double
-	VMOV R1, R2, D1			@ split double VFP register into two ARM registers
-	BL _printf				@ print result
+		BLNE _powloop
+		VCVTEQ.F64.F32 D1, S0		@ convert single to double
+		VMOVEQ R1, R2, D1			@ split double VFP register into two ARM registers
+		BLEQ _printf				@ print result
 	POP {PC}
 
 _inv:
@@ -115,4 +114,4 @@ _inv:
 .data
 format_str:		.asciz		"%f"
 read_char:		.asciz		 ""
-printf_str:		.asciz		"Testing: %f\n"
+printf_str:		.asciz		"%f\n"
