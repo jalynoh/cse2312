@@ -96,7 +96,7 @@ _pow:
 	BL _vscanf
 	_powloop:
 		CMP R0, #0
-		BNE _powprint
+		BHS _powprint
 		SUB R0, R0, #1
 		VMUL.F32 S1, S1, S2
 		B _powloop
