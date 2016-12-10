@@ -123,6 +123,6 @@ _inv:
 
 .data
 format_str:		.asciz		"%f"
-int_format_str	.asciz		"%d"
+int_format_str:	.asciz		"%d"
 read_char:		.asciz		 ""
 printf_str:		.asciz		"%f\n"
