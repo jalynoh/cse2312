@@ -92,6 +92,9 @@ _pow:
 	_powloopcheck:
 		CMP R0, R3
 		BHS _powloop
+	VCVT.F64.F32 D1, S0		@ convert single to double
+	VMOV R1, R2, D1			@ split double VFP register into two ARM registers
+	BL _printf				@ print result
 	POP {LR}
 
 _inv:
