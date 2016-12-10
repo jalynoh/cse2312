@@ -82,7 +82,7 @@ _sqrt:
 
 _pow:
 	PUSH {PC}
-	_vscanf
+	BL _vscanf
 	VMOV S1, S0
 	MOV R3, #0
 	B _powloopcheck
