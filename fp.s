@@ -84,12 +84,13 @@ _pow:
 	PUSH {LR}
 	VMOV S1, S0
 	BL _vscanf
+	MOV R1, R0
 	B _powloopcheck
 	_powloop:
-		SUB R0, #1, R0
+		SUB R1, R1, #1
 		VMUL.F32 S0, S0, S1
 	_powloopcheck:
-		CMP R0, #0
+		CMP R1, #0
 		BLNE _powloop
 
 	VCVT.F64.F32 D1, S0		@ convert single to double
