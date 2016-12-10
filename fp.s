@@ -75,8 +75,12 @@ _abs:
 	POP {PC}
 
 _sqrt:
+	PUSH {LR}
 	VADD.F32 S0, S0, S0
- 	MOV PC, LR
+	VCVT.F64.F32 D1, S0		@ convert single to double
+	VMOV R1, R2, D1			@ split double VFP register into two ARM registers
+	BL _printf				@ print result
+ 	POP {PC}
 
 _pow:
 
