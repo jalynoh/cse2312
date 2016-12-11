@@ -2,12 +2,6 @@
 @ cse2312
 @ Final Exam
 @ Dr. McMurrough
-@
-@
-@ note:
-@	all processes work, however on
-@ 	even iterations of the program it 
-@	displays 0.00000
 @	
 @
 @ 1) scan for input values
@@ -98,13 +92,13 @@ _sqrt:
 
 _pow:
 	PUSH {LR}
-	VMOV S2, S0				@ store original S1
+	VMOV S2, S0				@ store original S0
 	BL _scanf 				@ regular scan to get raise
 	_powloop:
 		CMP R0, #1			@ if the raise == 0
 		BEQ _powprint		@ if the raise == 0, go to _powprint
 		SUB R0, R0, #1		@ increment raise
-		VMUL.F32 S0, S0, S2	@ multiply the changing S1 by the static S2
+		VMUL.F32 S0, S0, S2	@ multiply the changing S0 by the static S2
 		B _powloop			@ go back to _powloop
 	_powprint:
 		VCVT.F64.F32 D4, S0	@ convert single to double
@@ -117,7 +111,7 @@ _inv:
 	MOV R5, #1				@ set constant 1
 	VMOV S2, R5				@ set constant 1
 	VCVT.F32.U32 S2, S2		@ set constant 1
-	VDIV.F32 S0, S2, S0		@ divide 1/S11.5
+	VDIV.F32 S0, S2, S0		@ divide 1/S0
 	VCVT.F64.F32 D4, S0		@ convert single to double
 	VMOV R1, R2, D4			@ split double VFP register into two ARM registers
 	BL _printf				@ print result
