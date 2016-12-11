@@ -25,7 +25,7 @@
 
 main:
 	BL _vscanf				@ jump to vault scanf
-	VMOV S1, R0				@ move return value to FPU registers
+	VMOV S0, R0				@ move return value to FPU registers
 	BL _getchar				@ operation input
 	MOV R9, R0 				@ move operation character for later use
 	BL _scanop				@ decifier operation input
@@ -81,32 +81,32 @@ _printf:
 
 _abs:
 	PUSH {LR}
-	VABS.F32 S1, S1			@ abs(S1)
-	VCVT.F64.F32 D4, S1		@ convert single to double
+	VABS.F32 S0, S0			@ abs(S1)
+	VCVT.F64.F32 D4, S0		@ convert single to double
 	VMOV R1, R2, D4			@ split double VFP register into two ARM registers
 	BL _printf				@ print result
 	POP {PC}
 
 _sqrt:
 	PUSH {LR}
-	VSQRT.F32 S1, S1		@ sqrt(S0)
-	VCVT.F64.F32 D4, S1		@ convert single to double
+	VSQRT.F32 S0, S0		@ sqrt(S0)
+	VCVT.F64.F32 D4, S0 	@ convert single to double
 	VMOV R1, R2, D4			@ split double VFP register into two ARM registers
 	BL _printf				@ print result
  	POP {PC}
 
 _pow:
 	PUSH {LR}
-	VMOV S2, S1				@ store original S1
+	VMOV S2, S0				@ store original S1
 	BL _scanf 				@ regular scan to get raise
 	_powloop:
 		CMP R0, #1			@ if the raise == 0
 		BEQ _powprint		@ if the raise == 0, go to _powprint
 		SUB R0, R0, #1		@ increment raise
-		VMUL.F32 S1, S1, S2	@ multiply the changing S1 by the static S2
+		VMUL.F32 S0, S0, S2	@ multiply the changing S1 by the static S2
 		B _powloop			@ go back to _powloop
 	_powprint:
-		VCVT.F64.F32 D4, S1	@ convert single to double
+		VCVT.F64.F32 D4, S0	@ convert single to double
 		VMOV R1, R2, D4		@ split double VFP register into two ARM registers
 		BL _printf			@ print result
 	POP {PC}
@@ -116,8 +116,8 @@ _inv:
 	MOV R5, #1				@ set constant 1
 	VMOV S2, R5				@ set constant 1
 	VCVT.F32.U32 S2, S2		@ set constant 1
-	VDIV.F32 S1, S2, S1		@ divide 1/S1
-	VCVT.F64.F32 D4, S1		@ convert single to double
+	VDIV.F32 S0, S2, S0		@ divide 1/S1
+	VCVT.F64.F32 D4, S0		@ convert single to double
 	VMOV R1, R2, D4			@ split double VFP register into two ARM registers
 	BL _printf				@ print result
 	POP {PC}
