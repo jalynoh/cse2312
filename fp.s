@@ -24,7 +24,6 @@
 .func main
 
 main:
-	MOV R0, #0
 	BL _vscanf				@ jump to vault scanf
 	VMOV S0, R0				@ move return value to FPU registers
 	BL _getchar				@ operation input
@@ -128,5 +127,5 @@ _inv:
 .data
 f_format_str:		.asciz		"%f"
 d_format_str:		.asciz		"%d"
-read_char:			.asciz		 ""
+read_char:			.asciz		 " "
 printf_str:			.asciz		"%f\n"
