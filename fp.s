@@ -117,8 +117,6 @@ _inv:
 	BL _printf				@ print result
 	POP {PC}
 
-
-
 .data
 f_format_str:		.asciz		"%f"
 d_format_str:		.asciz		"%d"
