@@ -24,7 +24,7 @@
 .func main
 
 main:
-	VMOV S0, 0
+	MOV R0, #0
 	BL _vscanf				@ jump to vault scanf
 	VMOV S0, R0				@ move return value to FPU registers
 	BL _getchar				@ operation input
