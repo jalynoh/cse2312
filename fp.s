@@ -129,6 +129,6 @@ _inv:
 f_format_str:		.asciz		"%f"
 d_format_str:		.asciz		"%d"
 read_char:			.asciz		 " "
-printf_str:			.asciz		"%f"
+printf_str:			.asciz		"%f\n"
 
 
