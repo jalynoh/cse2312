@@ -29,15 +29,12 @@ main:
 	BL _getchar				@ operation input
 	MOV R9, R0 				@ move operation character for later use
 	BL _scanop				@ decifier operation input
-	VCVT.F64.F32 D4, S1		@ convert single to double
-	VMOV R1, R2, D4			@ split double VFP register into two ARM registers
-	BL _printf				@ print result
 	B main					@ continuous loop
 
 _vscanf:
 	PUSH {LR}				@ store original function return value
 	SUB SP,SP,#4			@ make room on stack
-	LDR R0, =f_format_str		@ R0 contains address of format string
+	LDR R0, =f_format_str	@ R0 contains address of format string
 	MOV R1, SP 				@ move SP to R1 to store entry on stack
 	BL scanf				@ call scanf from stdlib
 	LDR R0, [SP]			@ load value at SP into R0
@@ -62,7 +59,7 @@ _getchar:
 	SWI 0
 	LDR R0, [R1]
 	AND R0, #0xFF
-	MOV PC, LR 				@ return to calling function
+	MOV PC, LR
 
 _scanop:
 	PUSH {LR}				@ store original function return value
@@ -85,13 +82,16 @@ _printf:
 _abs:
 	PUSH {LR}
 	VABS.F32 S1, S1			@ abs(S1)
+	VCVT.F64.F32 D4, S1		@ convert single to double
+	VMOV R1, R2, D4			@ split double VFP register into two ARM registers
+	BL _printf				@ print result
 	POP {PC}
 
 _sqrt:
 	PUSH {LR}
 	VSQRT.F32 S1, S1		@ sqrt(S0)
-	VCVT.F64.F32 D1, S1		@ convert single to double
-	VMOV R1, R2, D1			@ split double VFP register into two ARM registers
+	VCVT.F64.F32 D4, S1		@ convert single to double
+	VMOV R1, R2, D4			@ split double VFP register into two ARM registers
 	BL _printf				@ print result
  	POP {PC}
 
@@ -106,8 +106,8 @@ _pow:
 		VMUL.F32 S1, S1, S2	@ multiply the changing S1 by the static S2
 		B _powloop			@ go back to _powloop
 	_powprint:
-		VCVT.F64.F32 D1, S1	@ convert single to double
-		VMOV R1, R2, D1		@ split double VFP register into two ARM registers
+		VCVT.F64.F32 D4, S1	@ convert single to double
+		VMOV R1, R2, D4		@ split double VFP register into two ARM registers
 		BL _printf			@ print result
 	POP {PC}
 
@@ -117,8 +117,8 @@ _inv:
 	VMOV S2, R5				@ set constant 1
 	VCVT.F32.U32 S2, S2		@ set constant 1
 	VDIV.F32 S1, S2, S1		@ divide 1/S1
-	VCVT.F64.F32 D1, S1		@ convert single to double
-	VMOV R1, R2, D1			@ split double VFP register into two ARM registers
+	VCVT.F64.F32 D4, S1		@ convert single to double
+	VMOV R1, R2, D4			@ split double VFP register into two ARM registers
 	BL _printf				@ print result
 	POP {PC}
 
