@@ -29,7 +29,6 @@ main:
 	BL _getchar				@ operation input
 	MOV R9, R0 				@ move operation character for later use
 	BL _scanop				@ decifier operation input
-	BL _printline			@ print result
 	B main					@ continuous loop
 
 _vscanf:
@@ -65,24 +64,18 @@ _getchar:
 _scanop:
 	PUSH {LR}				@ store original function return value
 	CMP R9, #'a'			@ if R9 operation == absolute value
-	BEQ _abs				@ if R9 operation == absolute value
+	BLEQ _abs				@ if R9 operation == absolute value
 	CMP R9,#'s'				@ if R9 operation == square root
-	BEQ _sqrt				@ if R9 operation == square root
+	BLEQ _sqrt				@ if R9 operation == square root
 	CMP R9,#'p'				@ if R9 operation == power
-	BEQ _pow				@ if R9 operation == power
+	BLEQ _pow				@ if R9 operation == power
 	CMP R9,#'i'				@ if R9 operation == inverse
-	BEQ _inv				@ if R9 operation == inverse
+	BLEQ _inv				@ if R9 operation == inverse
 	POP {PC}				@ return to calling function
 
 _printf:
 	PUSH {LR}				@ store original function return value
 	LDR R0, =printf_str		@ load string formating into R0
-	BL printf 				@ call printf from stdlib
-	POP {PC}				@ return to calling function
-
-_printline:
-	PUSH {LR}				@ store original function return value
-	LDR R0, =printline_str		@ load string formating into R0
 	BL printf 				@ call printf from stdlib
 	POP {PC}				@ return to calling function
 
@@ -124,7 +117,7 @@ _inv:
 	MOV R5, #1				@ set constant 1
 	VMOV S2, R5				@ set constant 1
 	VCVT.F32.U32 S2, S2		@ set constant 1
-	VDIV.F32 S0, S2, S0		@ divide 1/S1
+	VDIV.F32 S0, S2, S0		@ divide 1/S11.5
 	VCVT.F64.F32 D4, S0		@ convert single to double
 	VMOV R1, R2, D4			@ split double VFP register into two ARM registers
 	BL _printf				@ print result
@@ -137,5 +130,5 @@ f_format_str:		.asciz		"%f"
 d_format_str:		.asciz		"%d"
 read_char:			.asciz		 " "
 printf_str:			.asciz		"%f"
-printline_str:		.asciz		"%f\n"
+
 
