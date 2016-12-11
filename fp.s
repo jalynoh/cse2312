@@ -137,5 +137,5 @@ f_format_str:		.asciz		"%f"
 d_format_str:		.asciz		"%d"
 read_char:			.asciz		 " "
 printf_str:			.asciz		"%f"
-printline_str:		.asciz		"\n"
+printline_str:		.asciz		"%f\n"
 
