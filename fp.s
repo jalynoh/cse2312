@@ -29,8 +29,8 @@ main:
 	BL _getchar				@ operation input
 	MOV R9, R0 				@ move operation character for later use
 	BL _scanop				@ decifier operation input
-	VCVT.F64.F32 D4, S0		@ convert single to double
-	VMOV R1, R2, D4			@ split double VFP register into two ARM registers
+	@VCVT.F64.F32 D4, S0		@ convert single to double
+	@VMOV R1, R2, D4			@ split double VFP register into two ARM registers
 	BL _printf				@ print result
 	B main					@ continuous loop
 
