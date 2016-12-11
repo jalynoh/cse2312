@@ -29,9 +29,7 @@ main:
 	BL _getchar				@ operation input
 	MOV R9, R0 				@ move operation character for later use
 	BL _scanop				@ decifier operation input
-	@VCVT.F64.F32 D4, S0		@ convert single to double
-	@VMOV R1, R2, D4			@ split double VFP register into two ARM registers
-	BL _printf				@ print result
+	BL _printline			@ print result
 	B main					@ continuous loop
 
 _vscanf:
@@ -82,12 +80,19 @@ _printf:
 	BL printf 				@ call printf from stdlib
 	POP {PC}				@ return to calling function
 
+_printline:
+	PUSH {LR}				@ store original function return value
+	LDR R0, =printline_str		@ load string formating into R0
+	BL printf 				@ call printf from stdlib
+	POP {PC}				@ return to calling function
+
+
 _abs:
 	PUSH {LR}
 	VABS.F32 S0, S0			@ abs(S1)
-	@VCVT.F64.F32 D4, S0		@ convert single to double
-	@VMOV R1, R2, D4			@ split double VFP register into two ARM registers
-	@BL _printf				@ print result
+	VCVT.F64.F32 D4, S0		@ convert single to double
+	VMOV R1, R2, D4			@ split double VFP register into two ARM registers
+	BL _printf				@ print result
 	POP {PC}
 
 _sqrt:
@@ -131,4 +136,6 @@ _inv:
 f_format_str:		.asciz		"%f"
 d_format_str:		.asciz		"%d"
 read_char:			.asciz		 " "
-printf_str:			.asciz		"%f\n"
+printf_str:			.asciz		"%f"
+printline_str:		.asciz		"\n"
+
